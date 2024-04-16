@@ -136,7 +136,17 @@
         <span class="icon-notice baseline">
             {{ printf "icons/%s.svg" $noticeType | readFile | safeHTML }}
         </span>
-        {{- i18n $noticeType -}}
+        
+        {{/* 
+             不展示notice的类型，而是允许用户自定义标题。
+             但为了保留可移植性，就保留了原来的参数1（notice类型），
+             用后面的参数来表示用户自定义的标题 
+          */}}
+        {{/*  {{- i18n $noticeType -}}  */}}
+        <span>
+          {{ range after 1 .Params }}{{ . }} {{ end }}
+        </span>
+
     </p>
     {{- if or $block (not $raw) }}{{ $raw }}{{ else }}<p>{{ $raw }}</p>{{ end -}}
 </div>
